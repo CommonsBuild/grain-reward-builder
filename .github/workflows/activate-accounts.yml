@@ -1,7 +1,5 @@
 name: Activate SC accounts
 on:
-  schedule:
-    - cron: 0 2,14 * * *
   workflow_dispatch:
 jobs:
   update_data:
