@@ -48,7 +48,8 @@ const main = async (): Promise<void> => {
           `  - Cannot find Discord identity for user ${username}, skipping to next user`
         )
       );
-      User.findOneAndUpdate({ discordId }, { modifiedAt: Date.now() });
+      // User.findOneAndUpdate({ discordId }, { modifiedAt: Date.now() });
+      return;
       continue;
     }
 
@@ -94,7 +95,7 @@ const main = async (): Promise<void> => {
               `  - An error occurred when trying to merge Discourse identity ${discourse} into Discord identity ${username}: ${err}`
             )
           );
-          User.findOneAndUpdate({ discordId }, { modifiedAt: Date.now() });
+          // User.findOneAndUpdate({ discordId }, { modifiedAt: Date.now() });
         }
       }
     }
@@ -137,7 +138,7 @@ const main = async (): Promise<void> => {
               `  - An error occurred when trying to merge GitHub identity ${github} into Discord identity ${username}: ${err}`
             )
           );
-          User.findOneAndUpdate({ discordId }, { modifiedAt: Date.now() });
+          // User.findOneAndUpdate({ discordId }, { modifiedAt: Date.now() });
         }
       }
     }
@@ -156,19 +157,20 @@ const main = async (): Promise<void> => {
     }
 
     // Activate account
-    if (!discordAccount.active) {
-      try {
-        ledger.activate(discordIdentityId);
-        console.log(`  - Discord identity for user ${username} activated`);
-      } catch (err) {
-        console.log(
-          chalk.red(
-            `  - An error occurred when trying to activate Discord identity for user ${discourse}: ${err}`
-          )
-        );
-      }
-    }
+    // if (!discordAccount.active) {
+    //   try {
+    //     ledger.activate(discordIdentityId);
+    //     console.log(`  - Discord identity for user ${username} activated`);
+    //   } catch (err) {
+    //     console.log(
+    //       chalk.red(
+    //         `  - An error occurred when trying to activate Discord identity for user ${discourse}: ${err}`
+    //       )
+    //     );
+    //   }
+    // }
     // End of Ledger modifications logic
+    User.findOneAndUpdate({ discordId }, { modifiedAt: Date.now() });
   }
 
   const persistRes = await manager.persist();
