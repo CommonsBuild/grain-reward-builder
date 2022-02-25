@@ -37,7 +37,6 @@ const main = async (): Promise<void> => {
     console.log(`\nChecking ledger entry for ${username}...`);
 
     // Find account by Discord ID
-    console.log(ledger.accountByName("hz"));
     const discordAccount = ledger.accountByAddress(
       `N\u0000sourcecred\u0000discord\u0000MEMBER\u0000user\u0000${discordId}\u0000`
     );
