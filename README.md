@@ -16,6 +16,7 @@ Copy the content of your `.env.sample` file into a new `.env` file and add the c
 - `GH_API_TOKEN` = GitHub token with commit permissions to the repo.
 - `REPO` = The repo you want to commit to.
 - `BRANCH` = The branch you want to commit to.
+- `REPO_AND_BRANCH` = The repo and branch of your sourcecred instance. In this case it's https://raw.githubusercontent.com/1Hive/pollen/gh-pages/
 
 ### Run the script!
 
