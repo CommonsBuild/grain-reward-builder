@@ -2,28 +2,10 @@ import { sourcecred } from "sourcecred";
 import { config } from "dotenv";
 
 import User, { IUser } from "./models/User";
-import LedgerUpdate from "./models/LedgerUpdate";
 
 config();
 
 export const log = (message) => console.log(`${Date.now()}: ${message}`);
-
-const fetchLastLedgerUpdate = async (): Promise<number> => {
-  const lastLedgerUpdateEntry = await LedgerUpdate.find({})
-    .sort("-modifiedAt")
-    .limit(1);
-
-  return lastLedgerUpdateEntry.length ? lastLedgerUpdateEntry[0].modifiedAt : 0;
-};
-
-export const fetchModifiedUsers = async (): Promise<IUser[]> => {
-  const lastLedgerUpdate = await fetchLastLedgerUpdate();
-  const foundUsers = await User.find({
-    modifiedAt: { $gte: lastLedgerUpdate },
-  });
-
-  return foundUsers;
-};
 
 const storage = new sourcecred.ledger.storage.WritableGithubStorage({
   apiToken: process.env.GH_API_TOKEN,
@@ -38,30 +20,65 @@ export const loadLedger = async () => {
   return ledger;
 };
 
-export const createDiscourseIdentity = (discourse, ledger) => {
-  const newDiscourseIdentityId = ledger.createIdentity(
-    "USER",
-    ledger.nameAvailable(discourse) ? discourse : `${discourse}-discourse`
-  );
-
-  ledger.addAlias(newDiscourseIdentityId, {
-    description: `discourse/[@${discourse}](https://forum.tecommons.org/u/${discourse}/)`,
-    address: `N\u0000sourcecred\u0000discourse\u0000user\u0000https://forum.tecommons.org\u0000${discourse}\u0000`,
-  });
-
-  return newDiscourseIdentityId;
+const loadCredGraph = async (): Promise<any> => {
+  try {
+    const instance = sourcecred.instance.readInstance.getNetworkReadInstance(
+      process.env.REPO_AND_BRANCH
+    );
+    return instance.readCredGraph();
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
 };
 
-export const createGithubIdentity = (github, ledger) => {
-  const newGithubIdentityId = ledger.createIdentity(
-    "USER",
-    ledger.nameAvailable(github) ? github : `${github}-github`
-  );
+export const fetchAllUsers = async (): Promise<IUser[]> => {
+  const foundUsers = await User.find({});
+  return foundUsers;
+};
 
-  ledger.addAlias(newGithubIdentityId, {
-    description: `github/[@${github}](https://github.com/${github})`,
-    address: `N\u0000sourcecred\u0000github\u0000USERLIKE\u0000USER\u0000${github}\u0000`,
+export const getGrainData = async (ledger) => {
+  const credGraph = await loadCredGraph();
+  if (!ledger || !credGraph) return;
+  const intervals = credGraph
+    .intervals()
+    .map((i) => new Date(i.endTimeMs).toDateString())
+    .reverse();
+  return ledger
+    .accounts()
+    .map((a) => {
+      const result = {
+        id: a.identity.id,
+        name: a.identity.name,
+        totalGrainPaid: a.paid / 1000000000000000000,
+      };
+
+      // comment gpi to get latest paid, leave it to get all intervals
+      const gpi = _calculateGrainEarnedPerInterval(a, credGraph.intervals())
+        .reverse()
+        .forEach((g, i) => (result[intervals[i]] = g / 1000000000000000000));
+      return result;
+    })
+    .sort((a, b) => b.totalGrainPaid - a.totalGrainPaid);
+};
+
+const _calculateGrainEarnedPerInterval = (account, intervals) => {
+  let allocationIndex = 0;
+  return intervals.map((interval) => {
+    let grain = sourcecred.ledger.grain.ZERO;
+    while (
+      account.allocationHistory.length - 1 >= allocationIndex &&
+      interval.startTimeMs <
+        account.allocationHistory[allocationIndex].credTimestampMs &&
+      account.allocationHistory[allocationIndex].credTimestampMs <=
+        interval.endTimeMs
+    ) {
+      grain = sourcecred.ledger.grain.add(
+        grain,
+        account.allocationHistory[allocationIndex].grainReceipt.amount
+      );
+      allocationIndex++;
+    }
+    return grain;
   });
-
-  return newGithubIdentityId;
 };
