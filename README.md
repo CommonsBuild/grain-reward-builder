@@ -18,7 +18,7 @@ Copy the content of your `.env.sample` file into a new `.env` file and add the c
 - `BRANCH` = The branch you want to commit to.
 - `REPO_AND_BRANCH` = The repo and branch of your sourcecred instance. In this case it's https://raw.githubusercontent.com/1Hive/pollen/gh-pages/
 
-### Run the script!
+### Run the script
 
 - `npm start` will execute the script in production mode.
 - `npm run dev` will execute the script in developer mode, with hot reloading.
