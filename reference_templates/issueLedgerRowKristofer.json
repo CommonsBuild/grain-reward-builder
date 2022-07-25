@@ -1,0 +1,53 @@
+{
+  "balance": 6.06443914776119e19,
+  "paid": 6.06443914776119e19,
+  "identity": {
+    "id": "lVMZ47BZ6VINp7HqtXoAGA",
+    "name": "kristoferlund",
+    "subtype": "USER",
+    "aliases": [
+      {
+        "address": "N\u0000sourcecred\u0000github\u0000USERLIKE\u0000USER\u0000kristoferlund\u0000",
+        "description": "github/[@kristoferlund](https://github.com/kristoferlund)"
+      }
+    ],
+    "address": "N\u0000sourcecred\u0000core\u0000IDENTITY\u0000lVMZ47BZ6VINp7HqtXoAGA\u0000"
+  },
+  "active": 1,
+  "allocationHistory": [
+    {
+      "grainReceipt": {
+        "id": "lVMZ47BZ6VINp7HqtXoAGA",
+        "amount": "5326837298239707136"
+      },
+      "allocationId": "GMiqZqodDt7EKrVbEVldig",
+      "credTimestampMs": 1622937600000
+    },
+    {
+      "grainReceipt": {
+        "id": "lVMZ47BZ6VINp7HqtXoAGA",
+        "amount": "26281153915595329536"
+      },
+      "allocationId": "zvbyMSBYpndhaiNgdCa3aA",
+      "credTimestampMs": 1622937600000
+    },
+    {
+      "grainReceipt": {
+        "id": "lVMZ47BZ6VINp7HqtXoAGA",
+        "amount": "11283402247890782208"
+      },
+      "allocationId": "WdFQai4JhdEvrbgdqkrEgw",
+      "credTimestampMs": 1630195200000
+    },
+    {
+      "grainReceipt": {
+        "id": "lVMZ47BZ6VINp7HqtXoAGA",
+        "amount": "17752998015886084096"
+      },
+      "allocationId": "1IVSWl62ZZkoEgsqwvAVYQ",
+      "credTimestampMs": 1630195200000
+    }
+  ],
+  "payoutAddresses": {},
+  "mergedIdentityIds": ["lVMZ47BZ6VINp7HqtXoAGA"]
+}

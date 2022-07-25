@@ -1,0 +1,198 @@
+{
+  "balance": 2.44217787711921e21,
+  "paid": 2.44217787711921e21,
+  "identity": {
+    "id": "ET0yY6EZd8gYCWBNobntGw",
+    "name": "Griff",
+    "subtype": "USER",
+    "aliases": [
+      {
+        "address": "N\u0000sourcecred\u0000discourse\u0000user\u0000https://forum.tecommons.org\u0000Griff\u0000",
+        "description": "discourse/[@Griff](https://forum.tecommons.org/u/Griff/)"
+      },
+      {
+        "address": "N\u0000sourcecred\u0000github\u0000USERLIKE\u0000USER\u0000GriffGreen\u0000",
+        "description": "github/[@GriffGreen](https://github.com/GriffGreen)"
+      },
+      {
+        "address": "N\u0000sourcecred\u0000core\u0000IDENTITY\u0000M7XT0jmvj2NjDvAUnI74VQ\u0000",
+        "description": "identity @GriffGreen (id: M7XT0jmvj2NjDvAUnI74VQ)"
+      },
+      {
+        "address": "N\u0000sourcecred\u0000discord\u0000MEMBER\u0000user\u0000395673197615513600\u0000",
+        "description": "discord/griff#3281"
+      },
+      {
+        "address": "N\u0000sourcecred\u0000core\u0000IDENTITY\u0000zOtAwuQrBFNEvh18ZhyPAg\u0000",
+        "description": "identity @griff-discord (id: zOtAwuQrBFNEvh18ZhyPAg)"
+      }
+    ],
+    "address": "N\u0000sourcecred\u0000core\u0000IDENTITY\u0000ET0yY6EZd8gYCWBNobntGw\u0000"
+  },
+  "active": 1,
+  "allocationHistory": [
+    {
+      "grainReceipt": {
+        "id": "ET0yY6EZd8gYCWBNobntGw",
+        "amount": "116254314675851476992"
+      },
+      "allocationId": "7b6yyu4O4LbjClzSOHBOwA",
+      "credTimestampMs": 1610236800000
+    },
+    {
+      "grainReceipt": {
+        "id": "ET0yY6EZd8gYCWBNobntGw",
+        "amount": "143470358043888697344"
+      },
+      "allocationId": "kzuNiAIZVMoW532GuZLZ7Q",
+      "credTimestampMs": 1610236800000
+    },
+    {
+      "grainReceipt": {
+        "id": "ET0yY6EZd8gYCWBNobntGw",
+        "amount": "112197490315194892288"
+      },
+      "allocationId": "QhNOsaUjDrnfpGzBg7NSMw",
+      "credTimestampMs": 1610841600000
+    },
+    {
+      "grainReceipt": {
+        "id": "ET0yY6EZd8gYCWBNobntGw",
+        "amount": "159986990112523026432"
+      },
+      "allocationId": "26BFA4LFkya9wboXnoKIQw",
+      "credTimestampMs": 1610841600000
+    },
+    {
+      "grainReceipt": {
+        "id": "ET0yY6EZd8gYCWBNobntGw",
+        "amount": "87305867400347287552"
+      },
+      "allocationId": "lzWHQhlGie26LXmv65ELGw",
+      "credTimestampMs": 1613865600000
+    },
+    {
+      "grainReceipt": {
+        "id": "ET0yY6EZd8gYCWBNobntGw",
+        "amount": "110930925487721758720"
+      },
+      "allocationId": "WE4bt8kygVTrvrFKncBcbA",
+      "credTimestampMs": 1613865600000
+    },
+    {
+      "grainReceipt": {
+        "id": "ET0yY6EZd8gYCWBNobntGw",
+        "amount": "86094380165470011392"
+      },
+      "allocationId": "BHxDcP7djNlntyK1UxoqCw",
+      "credTimestampMs": 1616284800000
+    },
+    {
+      "grainReceipt": {
+        "id": "ET0yY6EZd8gYCWBNobntGw",
+        "amount": "117303885725753147392"
+      },
+      "allocationId": "jCD6UDEKbKSMdG4bQCjMPA",
+      "credTimestampMs": 1616284800000
+    },
+    {
+      "grainReceipt": {
+        "id": "ET0yY6EZd8gYCWBNobntGw",
+        "amount": "91410209844369670144"
+      },
+      "allocationId": "LOtM3O48gxhbRedEAujesg",
+      "credTimestampMs": 1616889600000
+    },
+    {
+      "grainReceipt": {
+        "id": "ET0yY6EZd8gYCWBNobntGw",
+        "amount": "180742779264499286016"
+      },
+      "allocationId": "lqTmNztX0lJWAGZFOdPa7A",
+      "credTimestampMs": 1616889600000
+    },
+    {
+      "grainReceipt": {
+        "id": "ET0yY6EZd8gYCWBNobntGw",
+        "amount": "146834039756020776960"
+      },
+      "allocationId": "v0TLY0biVrXPn6zualHYyQ",
+      "credTimestampMs": 1618099200000
+    },
+    {
+      "grainReceipt": {
+        "id": "ET0yY6EZd8gYCWBNobntGw",
+        "amount": "232429886006885515264"
+      },
+      "allocationId": "moOFK5BhmHqrDVGgoVgkrw",
+      "credTimestampMs": 1618099200000
+    },
+    {
+      "grainReceipt": {
+        "id": "ET0yY6EZd8gYCWBNobntGw",
+        "amount": "127999781591309058048"
+      },
+      "allocationId": "YUwD5oh9kKbQFpHlLrZmWw",
+      "credTimestampMs": 1619308800000
+    },
+    {
+      "grainReceipt": {
+        "id": "ET0yY6EZd8gYCWBNobntGw",
+        "amount": "160097097846345334784"
+      },
+      "allocationId": "AWq7Ly0cPx6svMlhA6xupQ",
+      "credTimestampMs": 1619308800000
+    },
+    {
+      "grainReceipt": {
+        "id": "ET0yY6EZd8gYCWBNobntGw",
+        "amount": "158652353270047145984"
+      },
+      "allocationId": "VEGA16vzSpdpf6VQ7dD7ow",
+      "credTimestampMs": 1621728000000
+    },
+    {
+      "grainReceipt": {
+        "id": "ET0yY6EZd8gYCWBNobntGw",
+        "amount": "171337625113409880064"
+      },
+      "allocationId": "yQaRqaAog46KWPbziZ1bPw",
+      "credTimestampMs": 1621728000000
+    },
+    {
+      "grainReceipt": {
+        "id": "ET0yY6EZd8gYCWBNobntGw",
+        "amount": "122875755246380384256"
+      },
+      "allocationId": "GMiqZqodDt7EKrVbEVldig",
+      "credTimestampMs": 1622937600000
+    },
+    {
+      "grainReceipt": { "id": "ET0yY6EZd8gYCWBNobntGw", "amount": "0" },
+      "allocationId": "zvbyMSBYpndhaiNgdCa3aA",
+      "credTimestampMs": 1622937600000
+    },
+    {
+      "grainReceipt": {
+        "id": "ET0yY6EZd8gYCWBNobntGw",
+        "amount": "115658504341648343040"
+      },
+      "allocationId": "WdFQai4JhdEvrbgdqkrEgw",
+      "credTimestampMs": 1630195200000
+    },
+    {
+      "grainReceipt": {
+        "id": "ET0yY6EZd8gYCWBNobntGw",
+        "amount": "595632911540821120"
+      },
+      "allocationId": "1IVSWl62ZZkoEgsqwvAVYQ",
+      "credTimestampMs": 1630195200000
+    }
+  ],
+  "payoutAddresses": {},
+  "mergedIdentityIds": [
+    "ET0yY6EZd8gYCWBNobntGw",
+    "M7XT0jmvj2NjDvAUnI74VQ",
+    "zOtAwuQrBFNEvh18ZhyPAg"
+  ]
+}
