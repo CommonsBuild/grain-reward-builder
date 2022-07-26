@@ -138,6 +138,7 @@ def combine():
         [numpy.NaN], 0.01
     )  # we want to keep the ones with missing score in case we can match them
     conflict_df = conflict_df.loc[conflict_df["totalCred"] >= 0.01]
+    conflict_df["name"] = conflict_df["name"].str.lower()
     conflict_df = conflict_df.sort_values(by=["name"])
     conflict_df = conflict_df.replace(["MISSING"], "")
     conflict_df.to_csv("./clean_data/summary_table.csv", index=False)
