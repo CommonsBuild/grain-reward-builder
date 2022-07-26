@@ -26,6 +26,14 @@ def clean_data():
     print(grain.head())
     grain.to_csv("./clean_data/grainDistributions.csv", index=False)
 
+    # ==== CRED DISTRIBUTIONS ====
+    # This table contains the cred distributions exported from the ledger, while discarding all empty distributions
+
+    cred = pd.read_csv("./raw_data/cred.csv")
+    cred = cred.loc[:, (cred != 0).any(axis=0)]
+    print(cred.head())
+    cred.to_csv("./clean_data/credDistributions.csv", index=False)
+
     # ==== ACCOUNTS FROM THE LEDGER ====
     # This table contains the accounts as they are stored in the Sourcecred ledger
     # I've chosen to keep absolutely everything for now ti be sure, but for further use all those Dataframes inside of dataframes will need to be trimmed. To avoid issues, I've replaced the \u0000 caracters in the aliases with backslashes

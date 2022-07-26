@@ -1,5 +1,5 @@
 import connectDB from "./config/db";
-import { fetchAllUsers, getGrainData, manager } from "./utils";
+import { fetchAllUsers, getGrainData, getCredData,  manager } from "./utils";
 
 const main = async (): Promise<void> => {
   await connectDB();
@@ -8,6 +8,9 @@ const main = async (): Promise<void> => {
   await manager.reloadLedger();
   const ledger = manager.ledger;
   const ledgerAccounts = ledger._accounts;
+  const credParticipants = await getCredData(ledger);
+
+  console.log(credParticipants)
 
   const grainData = await getGrainData(ledger);
 
@@ -19,7 +22,7 @@ const main = async (): Promise<void> => {
   ledgerAccounts.forEach((value, key) => {  
     jsonLedger[key] = value  
   });  
-  console.log(jsonLedger)
+  //console.log(jsonLedger)
   //console.log(typeof jsonLedger)
 
 
@@ -58,6 +61,9 @@ const main = async (): Promise<void> => {
   const activatedCsv = new ObjectsToCsv(Object.values(activeUsers));
   await activatedCsv.toDisk('./raw_data/activatedUsers.csv')
 
+
+  const participantCsv = new ObjectsToCsv(Object.values(credParticipants));
+  await participantCsv.toDisk('./raw_data/cred.csv')
 
 
 

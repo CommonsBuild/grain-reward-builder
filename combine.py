@@ -1,3 +1,4 @@
+from heapq import merge
 import pandas as pd
 import numpy
 import ast
@@ -12,6 +13,9 @@ def combine():
 
     grain_distributions = pd.read_csv("./clean_data/grainDistributions.csv")
     # print(grain_distributions.head())
+
+    cred_distributions = pd.read_csv("./clean_data/credDistributions.csv")
+    # print(cred_distributions.head())
 
     # sadly, to load it we have to do the same as in cleaning again
     jsonData = []
@@ -51,6 +55,9 @@ def combine():
     ledger_data["name"] = ledger_data.apply(lambda row: row["identity"]["name"], axis=1)
 
     merge1 = grain_distributions.merge(ledger_data, on=["id", "name"], how="left")
+    # merge1 = cred_distributions.merge(ledger_data, on=["id", "name"], how="left")
+    # print(merge1.head())
+    # merge1.to_csv("./testCredMerge.csv")
 
     # We also create separate columns for the different service IDs to make them easily accesible
     merge1["discord_id"] = merge1.apply(
@@ -109,7 +116,7 @@ def combine():
 
     print(merge2.head())
 
-    merge2.to_csv("./clean_data/merged_table.csv")
+    merge2.to_csv("./clean_data/merged_grain_table.csv")
 
 
 def find_linked_id(linked_service, alias_list):

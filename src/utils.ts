@@ -82,3 +82,26 @@ const _calculateGrainEarnedPerInterval = (account, intervals) => {
     return grain;
   });
 };
+
+export const getCredData = async (ledger) =>{
+  const credGraph = await loadCredGraph();
+  if (!credGraph) return;
+  const intervals = credGraph
+    .intervals()
+    .map(i => new Date(i.startTimeMs).toDateString())
+    .reverse();
+  return Array.from(credGraph.participants())
+    .map(p => {
+      //console.log(p)
+      const result = {
+        id: p.id,
+        name: p.description,
+        totalCred: p.cred
+      };
+      p.credPerInterval
+        .reverse()
+        .forEach((c, i) => (result[intervals[i]] = c.toFixed(4)));
+      return result;
+    })
+    .sort((a, b) => b.totalCred - a.totalCred);
+}
