@@ -54,8 +54,8 @@ def combine():
     ledger_data["id"] = ledger_data.apply(lambda row: row["identity"]["id"], axis=1)
     ledger_data["name"] = ledger_data.apply(lambda row: row["identity"]["name"], axis=1)
 
-    merge1 = grain_distributions.merge(ledger_data, on=["id", "name"], how="left")
-    # merge1 = cred_distributions.merge(ledger_data, on=["id", "name"], how="left")
+    merge1 = grain_distributions.merge(ledger_data, on=["id", "name"], how="outer")
+    # merge1 = merge1.merge(cred_distributions, on=["id", "name"], how="outer")
     # print(merge1.head())
     # merge1.to_csv("./testCredMerge.csv")
 
@@ -74,6 +74,8 @@ def combine():
     merge1["discord_username"] = merge1.apply(
         lambda row: find_discord_name(row["identity"]["aliases"]), axis=1
     )
+
+    merge1 = merge1.merge(cred_distributions, on=["id", "name"], how="outer")
 
     # Now we try to merge it with the accounts from the sourcecred mass activation. Since data is inconsistent, we need to check what matches we can find and fill out accordingly
 
@@ -116,11 +118,35 @@ def combine():
 
     print(merge2.head())
 
-    merge2.to_csv("./clean_data/merged_grain_table.csv")
+    merge2.to_csv("./clean_data/merged_mega_table.csv")
+
+    manual_select = [
+        "name",
+        "discord_username",
+        "github_id",
+        "discourse_id",
+        "sourcecred_id",
+        "address",
+        "discord_id",
+        "totalGrainPaid",
+        "totalCred",
+    ]
+
+    conflict_df = merge2[manual_select].copy()
+    # filter out cred below 0.01 and make some readability changes
+    conflict_df["totalCred"] = conflict_df["totalCred"].replace(
+        [numpy.NaN], 0.01
+    )  # we want to keep the ones with missing score in case we can match them
+    conflict_df = conflict_df.loc[conflict_df["totalCred"] >= 0.01]
+    conflict_df = conflict_df.sort_values(by=["name"])
+    conflict_df = conflict_df.replace(["MISSING"], "")
+    conflict_df.to_csv("./clean_data/summary_table.csv", index=False)
 
 
 def find_linked_id(linked_service, alias_list):
+
     for elem in alias_list:
+
         if elem["address"][2] == linked_service:
             return elem["address"][5]
 
@@ -128,6 +154,7 @@ def find_linked_id(linked_service, alias_list):
 
 
 def find_discord_name(alias_list):
+
     for elem in alias_list:
         data = elem["description"].split("/")
         if data[0] == "discord":
