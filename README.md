@@ -25,4 +25,4 @@ Copy the content of your `.env.sample` file into a new `.env` file and add the c
 
 
 ### For the python scripts
-Once you have the files in the raw_data folder after running the js scripts, you can run clean_data.py and combine.py (in this order). It is recommended you set up a virtual environment and install the required libraries with ```pip install -r requirements.txt```
+Once you have the files in the raw_data folder after running the js scripts, you can run clean_data.py and new_combine.py (in this order). It is recommended you set up a virtual environment and install the required libraries with ```pip install -r requirements.txt```

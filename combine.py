@@ -1,4 +1,24 @@
+# ======= DEPRECATED FOR NOW =======
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+
+
 from heapq import merge
+from tokenize import Number
 import pandas as pd
 import numpy
 import ast
@@ -79,14 +99,14 @@ def combine():
 
     # Now we try to merge it with the accounts from the sourcecred mass activation. Since data is inconsistent, we need to check what matches we can find and fill out accordingly
 
-    # we prepare the new dataframe, merge2 adding the columns of activated users. We choos to take the discord username from the activated lsit since that one is more recent
+    # we prepare the new dataframe, merge2 adding the columns of activated users. We choose to take the discord username from the activated list since that one is more recent
     merge2 = merge1.copy()
-    merge2["address"] = "MISSING"
+    merge2["address"] = "missing"
 
     # we transform the type of discordId for easy comparison
     user_reference = activated_users.copy()
     user_reference["discordId"] = user_reference["discordId"].astype(str)
-    user_reference.fillna("MISSING", inplace=True)
+    user_reference.fillna("missing", inplace=True)
 
     cols_to_compare = [
         ("discord_id", "discordId"),
@@ -120,6 +140,12 @@ def combine():
 
     merge2.to_csv("./clean_data/merged_mega_table.csv")
 
+    # TODO NUEVO ENFOQUE:
+    # Hacer lo que hemos hecho con el ledger con la tabla del cred:
+    # recorrerla nombre a nombre e intentar dar con matches. Primero ID luego github etc
+    # Pasos:
+    #       limpiar nombres: lowercase, quitar "-discourse", "-github" etc. Tenemos las ids aun
+
     manual_select = [
         "name",
         "discord_username",
@@ -127,20 +153,41 @@ def combine():
         "discourse_id",
         "sourcecred_id",
         "address",
-        "discord_id",
-        "totalGrainPaid",
+        #        "discord_id",
+        #       "totalGrainPaid",
         "totalCred",
     ]
 
     conflict_df = merge2[manual_select].copy()
-    # filter out cred below 0.01 and make some readability changes
-    conflict_df["totalCred"] = conflict_df["totalCred"].replace(
-        [numpy.NaN], 0.01
-    )  # we want to keep the ones with missing score in case we can match them
-    conflict_df = conflict_df.loc[conflict_df["totalCred"] >= 0.01]
+
+    conflict_df["name"] = (
+        conflict_df["name"].apply(lambda x: cleanup_name(x)).str.lower()
+    )
+
     conflict_df["name"] = conflict_df["name"].str.lower()
+    conflict_df["github_id"] = conflict_df["github_id"].str.lower()
+    conflict_df["discourse_id"] = conflict_df["discourse_id"].str.lower()
     conflict_df = conflict_df.sort_values(by=["name"])
-    conflict_df = conflict_df.replace(["MISSING"], "")
+    conflict_df.fillna("missing", inplace=True)
+
+    test = pd.DataFrame(columns=conflict_df.keys())
+    test["name"] = pd.Series(conflict_df["name"].unique())
+    test.to_csv("./test_names.csv", index=False)
+    conflict_df["totalCred"] = conflict_df["totalCred"].replace(
+        [numpy.NaN], 0
+    )  # we want to keep the ones with missing score in case we can match them
+    conflict_df["totalCred"] = conflict_df["totalCred"].replace(["missing"], 0)
+    print(test.head())
+    test = test.apply(lambda x: merge_into_one(x, conflict_df), axis=1)
+    test["totalCred"] = test["totalCred"].replace(["missing"], 0.01)
+    test = test.loc[test["totalCred"] >= 0.01]
+    test.to_csv("./test_table.csv", index=False)
+
+    # filter out cred below 0.01 and make some readability changes
+
+    conflict_df = conflict_df.loc[conflict_df["totalCred"] >= 0.01]
+
+    conflict_df = conflict_df.replace(["missing"], "")
     conflict_df.to_csv("./clean_data/summary_table.csv", index=False)
 
 
@@ -151,7 +198,7 @@ def find_linked_id(linked_service, alias_list):
         if elem["address"][2] == linked_service:
             return elem["address"][5]
 
-    return "MISSING"
+    return "missing"
 
 
 def find_discord_name(alias_list):
@@ -161,7 +208,7 @@ def find_discord_name(alias_list):
         if data[0] == "discord":
             return data[1]
 
-    return "MISSING"
+    return "missing"
 
 
 def fill_out_matches(df_Row, reference_DF, check_columns):
@@ -170,20 +217,70 @@ def fill_out_matches(df_Row, reference_DF, check_columns):
 
     # finds the first row containing matching data
     for orig, ref in check_columns:
-        if df_Row[orig] != "MISSING":
+        if df_Row[orig] != "missing":
             colId = df_Row[orig]
             matchingRow = reference_DF[reference_DF[ref] == colId]
             if not matchingRow.empty:
+                # print(matchingRow)
                 break
 
     if not matchingRow.empty:
         matchingRow = matchingRow.iloc[0].squeeze()
         for orig, ref in check_columns:
-            if matchingRow[ref] != "MISSING":
+            if matchingRow[ref] != "missing":
                 df_Row[orig] = matchingRow[ref]
 
     return df_Row
 
 
+def merge_into_one(row, ref_df):
+    val = row["name"]
+
+    res = ref_df[ref_df.isin([val]).any(axis=1)]
+
+    if val == "efra":
+        print(res)
+        print(type(res["totalCred"].iloc[0]))
+    for col in row.keys():
+        # print(res[col])
+        row[col] = squeeze(res[col])
+
+    if val == "efra":
+        print(row)
+    return row
+
+
+def squeeze(col):
+    if type(col.iloc[0]) == numpy.float64:
+        return sum(col)
+    else:
+        col = col.unique()
+        # print(col)
+        # print(type(col))
+        col = numpy.delete(col, numpy.where(col == "missing"))
+        # print(col)
+        if not col.any():
+            return "missing"
+        else:
+            return col[0]
+
+
+def cleanup_name(name):
+    patterns = ["-discourse", "-github", "-discord"]
+    name = str(name)
+    for pat in patterns:
+        if len(name) < len(pat):
+            continue
+
+        length = len(pat) * -1
+        end = name[length:]
+        if str(end) == pat:
+            # print(str(name[0:length]))
+            return str(name[0:length])
+
+    return name
+
+
 if __name__ == "__main__":
-    combine()
+    print("=============DEPRECATED FOR NOW=============")
+    # combine()
