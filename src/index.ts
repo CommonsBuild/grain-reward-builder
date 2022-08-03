@@ -10,7 +10,7 @@ const main = async (): Promise<void> => {
   const ledgerAccounts = ledger._accounts;
   const credParticipants = await getCredData(ledger);
 
-  console.log(credParticipants)
+  //console.log(credParticipants)
 
   const grainData = await getGrainData(ledger);
 
@@ -68,6 +68,8 @@ const main = async (): Promise<void> => {
 
 
 })();
+
+console.log("Done.")
 };
 
 main();
