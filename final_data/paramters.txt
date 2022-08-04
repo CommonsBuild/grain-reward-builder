@@ -1,0 +1,10 @@
+281	unique recipients
+24852.73351	sum of cred
+	
+	
+	
+382	days since old praise ended (July 14 2021 - July 31 2022)
+134	tec per day
+33.5	25% of daily amount
+12797	TEC to distribute 
+
