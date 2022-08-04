@@ -17,7 +17,6 @@ def generate_aragon():
 
     final_merge = final_allocs.merge(merge_df, on=["name"], how="left")
     final_merge = final_merge[["name", "address", "vested_amount"]].copy()
-    final_merge["token"] = "TEC"
 
     final_merge[["name", "address", "vested_amount"]].to_csv(
         "./sourcecred.csv", index=False
@@ -25,7 +24,17 @@ def generate_aragon():
 
     only_activated = final_merge.dropna()
 
-    only_activated[["address", "vested_amount", "token"]].to_csv(
+    arag_squeeze = (
+        only_activated[["address", "vested_amount"]]
+        .copy()
+        .groupby(["address"], as_index=False)
+        .sum()
+    )
+    arag_squeeze = arag_squeeze.sort_values(by="vested_amount", ascending=False)
+    arag_squeeze["token"] = "TEC"
+    print(arag_squeeze.head())
+
+    arag_squeeze.to_csv(
         "./sourcecred_aragon_distribution.csv", index=False, header=False
     )
 
