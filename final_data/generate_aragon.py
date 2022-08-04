@@ -29,8 +29,8 @@ def generate_aragon():
         "./sourcecred_aragon_distribution.csv", index=False, header=False
     )
 
-    only_activated[["address", "vested_amount", "token"]].to_csv(
-        "./sourcecred_forum_table.csv", index=False, header=False
+    only_activated[["name", "vested_amount"]].to_csv(
+        "./sourcecred_forum_table.csv", index=False
     )
 
 
